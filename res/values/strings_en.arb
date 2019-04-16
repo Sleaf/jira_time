@@ -1,3 +1,17 @@
 {
-  "login": "Login to JIRA"
+  "login": "Sign in",
+  "logout": "Sign out",
+  "dashboard": "Dashboard",
+  "username": "Username",
+  "password": "Password",
+  "settings": "Settings",
+  "language": "Language",
+  "dark_mode": "Dark Mode",
+  "validator_hostname_required": "Hostname is required",
+  "validator_hostname_regx": "Hostname must begin with http(s)://",
+  "validator_username_required": "Username is required",
+  "validator_password_required": "Password is required",
+  "error_server": "Server error, please contact with administer of server.",
+  "error_server_timeout": "Time out, please contact with administer of server.",
+  "error_fetch_session": "Fail to sign in, make sure your hostname is correct please."
 }

@@ -1,3 +1,17 @@
 {
-  "login": "登录到 JIRA"
+  "login": "登录",
+  "logout": "退出帐户",
+  "dashboard": "仪表盘",
+  "username": "用户名",
+  "password": "密码",
+  "settings": "设置",
+  "language": "语言",
+  "dark_mode": "夜间模式",
+  "validator_hostname_required": "请填写服务器地址",
+  "validator_hostname_regx": "服务器地址必须以http(s)://开头",
+  "validator_username_required": "请填写用户名",
+  "validator_password_required": "请填写密码",
+  "error_server": "服务器错误，请联系管理员。",
+  "error_server_timeout": "请求超时，请联系管理员。",
+  "error_fetch_session": "登录失败，请确认服务器地址正确并重新尝试登录。"
 }

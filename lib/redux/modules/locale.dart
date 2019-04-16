@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:jira_time/constant/locales.dart';
 import 'package:redux/redux.dart';
 
-final localeReducer = combineReducers<Locale>([
-  TypedReducer<Locale, RefreshLocaleDataAction>(_refresh),
+final localeReducer = combineReducers<Locales>([
+  TypedReducer<Locales, RefreshLocaleDataAction>(_refresh),
 ]);
 
-Locale _refresh(Locale locale, action) {
+Locales _refresh(Locales locale, action) {
   locale = action.locale;
   return locale;
 }
 
 class RefreshLocaleDataAction {
-  final Locale locale;
+  final Locales locale;
   RefreshLocaleDataAction(this.locale);
 }

@@ -21,7 +21,21 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get login => "Login to JIRA";
+  String get dark_mode => "Dark Mode";
+  String get dashboard => "Dashboard";
+  String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
+  String get error_server => "Server error, please contact with administer of server.";
+  String get error_server_timeout => "Time out, please contact with administer of server.";
+  String get language => "Language";
+  String get login => "Sign in";
+  String get logout => "Sign out";
+  String get password => "Password";
+  String get settings => "Settings";
+  String get username => "Username";
+  String get validator_hostname_regx => "Hostname must begin with http(s)://";
+  String get validator_hostname_required => "Hostname is required";
+  String get validator_password_required => "Password is required";
+  String get validator_username_required => "Username is required";
 }
 
 class en extends S {
@@ -35,7 +49,35 @@ class zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get login => "登录到 JIRA";
+  String get settings => "设置";
+  @override
+  String get language => "语言";
+  @override
+  String get login => "登录";
+  @override
+  String get error_fetch_session => "登录失败，请确认服务器地址正确并重新尝试登录。";
+  @override
+  String get validator_password_required => "请填写密码";
+  @override
+  String get logout => "退出帐户";
+  @override
+  String get password => "密码";
+  @override
+  String get validator_hostname_regx => "服务器地址必须以http(s)://开头";
+  @override
+  String get dark_mode => "夜间模式";
+  @override
+  String get validator_username_required => "请填写用户名";
+  @override
+  String get error_server => "服务器错误，请联系管理员。";
+  @override
+  String get dashboard => "仪表盘";
+  @override
+  String get username => "用户名";
+  @override
+  String get validator_hostname_required => "请填写服务器地址";
+  @override
+  String get error_server_timeout => "请求超时，请联系管理员。";
 }
 
 

@@ -1,9 +1,32 @@
+library env;
+
+import 'package:json_annotation/json_annotation.dart';
 import 'package:redux/redux.dart';
 
-class Env {
-  final String baseUrl;
+part 'environment.g.dart';
 
-  const Env(this.baseUrl);
+@JsonSerializable()
+class Env {
+  factory Env.fromJson(Map<String, dynamic> json) => _$EnvFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EnvToJson(this);
+
+  final String baseUrl;
+  final String savedUsername;
+  final String savedPwd;
+
+  const Env({
+    this.baseUrl,
+    this.savedUsername,
+    this.savedPwd,
+  });
+
+  static const EMPTY = const Env();
+
+  Env clearPwd() => Env(
+        baseUrl: this.baseUrl,
+        savedUsername: this.savedUsername,
+      );
 }
 
 final envReducer = combineReducers<Env>([
