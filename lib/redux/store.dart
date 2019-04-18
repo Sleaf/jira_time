@@ -33,7 +33,7 @@ class AppState {
     env: Env.EMPTY,
     userInfo: User.EMPTY,
     theme: Themes.DEFAULT,
-    locale: Locales.en,
+    locale: Locales.zh_CN,
   );
 
   static AppState fromJson(store) => store != null

@@ -3,7 +3,6 @@ import 'package:jira_time/constant/locales.dart';
 import 'package:jira_time/generated/i18n.dart';
 import 'package:jira_time/redux/modules/locale.dart';
 import 'package:jira_time/util/redux.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -19,22 +18,16 @@ class Settings extends StatelessWidget {
             leading: Icon(Icons.language),
             trailing: Text(LocaleNameMap[getAppState(context).locale]),
             onTap: () {
-              final pickerDataList = LocaleNameMap.entries
-                  .map((MapEntry locale) => PickerItem<Locales>(
-                        text: Text(locale.value),
-                        value: locale.key,
-                      ))
-                  .toList();
-              Picker(
-                hideHeader: true,
-                adapter: PickerDataAdapter<Locales>(
-                  data: pickerDataList,
-                ),
-                onConfirm: (Picker picker, List value) {
-                  dispatchAppAction(
-                      context, RefreshLocaleDataAction(picker.getSelectedValues()[0]));
+              showDialog(
+                context: context, //BuildContext对象
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return LanguageDialog(
+                    //调用对话框
+                    value: '正在获取详情...',
+                  );
                 },
-              )..showDialog(context);
+              );
             },
           ),
         ],
@@ -94,6 +87,53 @@ class SettingText extends StatelessWidget {
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+class LanguageDialog extends Dialog {
+  final String value;
+  final Function onChanged;
+
+  LanguageDialog({Key key, this.value, this.onChanged}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pop(context),
+      child: Material(
+        //创建透明层
+        type: MaterialType.transparency, //透明类型
+        child: Center(
+          //保证控件居中效果
+          child: Container(
+            width: 220.0,
+            height: 70.0 * LocaleNameMap.length,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(2.0),
+                ),
+              ),
+            ),
+            child: ListView(
+              children: LocaleNameMap.entries.map((MapEntry<Locales, String> locale) {
+                return ListTile(
+                  title: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    child: Text(locale.value),
+                  ),
+                  onTap: () {
+                    dispatchAppAction(context, RefreshLocaleDataAction(locale.key));
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        ),
       ),
     );
   }

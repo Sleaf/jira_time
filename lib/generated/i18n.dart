@@ -21,20 +21,31 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get assign_to_me => "Assign to me";
+  String get assignee => "Assignee";
+  String get create => "Create";
   String get dark_mode => "Dark Mode";
   String get dashboard => "Dashboard";
+  String get double_click_to_exit => "Double click to exit.";
   String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
   String get error_server => "Server error, please contact with administer of server.";
   String get error_server_timeout => "Time out, please contact with administer of server.";
+  String get issue_type => "Issue Type";
   String get language => "Language";
   String get login => "Sign in";
   String get logout => "Sign out";
+  String get my_report_issue => "My Report Issue";
+  String get my_unresolved_issue => "My Unresolved Issue";
+  String get newIssue => "New Issue";
   String get password => "Password";
+  String get project => "Project";
   String get settings => "Settings";
+  String get summary => "Summary";
   String get username => "Username";
   String get validator_hostname_regx => "Hostname must begin with http(s)://";
   String get validator_hostname_required => "Hostname is required";
   String get validator_password_required => "Password is required";
+  String get validator_summary_required => "Password is required";
   String get validator_username_required => "Username is required";
 }
 

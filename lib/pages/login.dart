@@ -32,6 +32,7 @@ class _LoginState extends State<Login> {
 
   handleLogin() async {
     setState(() {
+      FocusScope.of(context).detach();
       this._fetching = true;
     });
     final errorMessage = await login(
@@ -71,72 +72,7 @@ class _LoginState extends State<Login> {
                   image: AssetImage("assets/images/logo.png"),
                 ),
               ),
-              Form(
-                key: _formKey, //设置globalKey，用于后面获取FormState
-                onChanged: () {
-                  setState(() => _formValidated = (_formKey.currentState as FormState).validate());
-                },
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _hostController,
-                      decoration: InputDecoration(
-                        hintText: 'http(s)://jira.company.com',
-                        icon: Icon(Icons.cloud_queue),
-                      ),
-                      validator: (String content) {
-                        if (content.length == 0) {
-                          return S.of(context).validator_hostname_required;
-                        }
-                        if (!RegExp('^https?:\/\/').hasMatch(content)) {
-                          return S.of(context).validator_hostname_regx;
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                          hintText: S.of(context).username, icon: Icon(Icons.person)),
-                      validator: (String content) {
-                        return content.length > 0
-                            ? null
-                            : S.of(context).validator_username_required;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _pwdController,
-                      decoration:
-                          InputDecoration(hintText: S.of(context).password, icon: Icon(Icons.lock)),
-                      obscureText: true,
-                      validator: (String content) {
-                        return content.length > 0
-                            ? null
-                            : S.of(context).validator_password_required;
-                      },
-                    ),
-                    // 登录按钮
-                    Padding(
-                      padding: const EdgeInsets.only(top: 28.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              padding: EdgeInsets.all(15.0),
-                              child: Text(S.of(context).login),
-                              color: _formValidated
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).disabledColor,
-                              textColor: Colors.white,
-                              onPressed: _formValidated ? this.handleLogin : null,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              buildForm(context),
             ],
           ),
         );
@@ -144,9 +80,72 @@ class _LoginState extends State<Login> {
     );
   }
 
+  Widget buildForm(BuildContext context) {
+    return Form(
+      key: _formKey, //设置globalKey，用于后面获取FormState
+      onChanged: () {
+        setState(() => _formValidated = (_formKey.currentState as FormState).validate());
+      },
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: _hostController,
+            decoration: InputDecoration(
+              hintText: 'http(s)://jira.company.com',
+              icon: Icon(Icons.cloud_queue),
+            ),
+            validator: (String content) {
+              if (content.length == 0) {
+                return S.of(context).validator_hostname_required;
+              }
+              if (!RegExp('^https?:\/\/').hasMatch(content)) {
+                return S.of(context).validator_hostname_regx;
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _usernameController,
+            decoration: InputDecoration(hintText: S.of(context).username, icon: Icon(Icons.person)),
+            validator: (String content) {
+              return content.length > 0 ? null : S.of(context).validator_username_required;
+            },
+          ),
+          TextFormField(
+            controller: _pwdController,
+            decoration: InputDecoration(hintText: S.of(context).password, icon: Icon(Icons.lock)),
+            obscureText: true,
+            validator: (String content) {
+              return content.length > 0 ? null : S.of(context).validator_password_required;
+            },
+          ),
+          // 登录按钮
+          Padding(
+            padding: const EdgeInsets.only(top: 28.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(S.of(context).login),
+                    color: _formValidated
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).disabledColor,
+                    textColor: Colors.white,
+                    onPressed: _formValidated ? this.handleLogin : null,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var buildWidgets = <Widget>[
+    final buildWidgets = <Widget>[
       buildMainWidget(context),
     ];
     if (_fetching) {

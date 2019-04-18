@@ -7,16 +7,12 @@ import 'package:jira_time/util/redux.dart';
 import 'package:jira_time/util/request.dart';
 import 'package:jira_time/constant/API.dart';
 import 'package:jira_time/redux/modules/user.dart';
-
-/*
-* Get error message from server response
-* */
-String getServerErrorMsgHelper(DioError error) => error.response.data['errorMessages'].join(' ');
+import 'package:jira_time/util/response.dart';
 
 /*
 * 从服务器获取个人信息
 * */
-fetchSelf(BuildContext context) async {
+Future fetchSelf(BuildContext context) async {
   final response = await request.get(API_MYSELF);
   final payload = response.data;
   // 存入 redux
@@ -26,7 +22,7 @@ fetchSelf(BuildContext context) async {
         name: payload['name'],
         displayName: payload['displayName'],
         emailAddress: payload['emailAddress'],
-        avatarUrls: payload['avatarUrls']['48x48'],
+        avatarUrls: getAvatarUrl(payload),
       )));
   return payload;
 }
@@ -36,7 +32,7 @@ fetchSelf(BuildContext context) async {
 * 如果登录成功则返回 null
 * 失败则返回提示信息
 * */
-login(BuildContext context, String hostname, String username, String password) async {
+Future login(BuildContext context, String hostname, String username, String password) async {
   // update request baseUrl
   request.updateBaseUrl(hostname);
   // start fetch
@@ -48,7 +44,7 @@ login(BuildContext context, String hostname, String username, String password) a
     // catch error messages
     if (error is DioError) {
       switch (error.type) {
-        case DioErrorType.DEFAULT:
+        case DioErrorType.RESPONSE:
           return getServerErrorMsgHelper(error);
         case DioErrorType.RECEIVE_TIMEOUT:
         case DioErrorType.SEND_TIMEOUT:
@@ -77,7 +73,7 @@ login(BuildContext context, String hostname, String username, String password) a
 /*
 * 登出当前账户
 * */
-logout(BuildContext context) async {
+Future logout(BuildContext context) async {
   final curEnv = getAppState(context).env;
   deleteSession();
   dispatchAppAction(context, RefreshEnvDataAction(curEnv.clearPwd()));

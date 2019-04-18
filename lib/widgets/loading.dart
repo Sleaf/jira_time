@@ -9,10 +9,7 @@ class Loading extends StatelessWidget {
       constraints: BoxConstraints.expand(),
       color: Colors.black26,
       child: Center(
-        child: SpinKitFadingCircle(
-          color: Theme.of(context).primaryColor,
-          size: 50.0,
-        ),
+        child: CircularProgressIndicator(),
       ),
     );
   }

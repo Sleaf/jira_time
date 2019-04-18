@@ -8,7 +8,7 @@ class Request extends Dio {
   Request() {
     super.options = BaseOptions(
       connectTimeout: 10 * 1000,
-      receiveTimeout: 10 * 1000,
+      receiveTimeout: 20 * 1000,
       headers: {
         "Content-Type": 'application/json',
       },

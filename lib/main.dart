@@ -28,20 +28,22 @@ class Main extends StatelessWidget {
     Main.globalStore = store;
     return StoreProvider<AppState>(
       store: store,
-      child: StoreBuilder<AppState>(builder: (context, store) {
-        return MaterialApp(
-          title: APP_NAME,
-          home: homePage,
-          theme: ThemeDataMap[store.state.theme],
-          locale: LocaleMap[store.state.locale],
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-        );
-      }),
+      child: StoreBuilder<AppState>(
+        builder: (context, store) {
+          return MaterialApp(
+            title: APP_NAME,
+            home: homePage,
+            theme: ThemeDataMap[store.state.theme],
+            locale: LocaleMap[store.state.locale],
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+          );
+        },
+      ),
     );
   }
 }

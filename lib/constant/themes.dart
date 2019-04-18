@@ -7,39 +7,26 @@ enum Themes {
 
 final ThemeDataMap = {
   Themes.DEFAULT: ThemeData(
-    // Define the default Brightness and Colors
     brightness: Brightness.light,
     primaryColor: Colors.lightBlue[800],
     accentColor: Colors.cyan[600],
     disabledColor: Colors.grey[800],
-
-    // Define the default Font Family
-    fontFamily: 'Montserrat',
-
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
+    backgroundColor: Colors.white,
     textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       button: TextStyle(color: Colors.white),
-      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      body1: TextStyle(fontSize: 14.0),
+      body2: TextStyle(fontSize: 16.0, color: Colors.black),
     ),
   ),
   Themes.DARK: ThemeData(
     brightness: Brightness.dark,
-    primaryColor: Colors.black,
+    primaryColor: Colors.grey[800],
     accentColor: Colors.grey,
-
-    // Define the default Font Family
-    fontFamily: 'Montserrat',
-
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
+    backgroundColor: Colors.black,
     textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       button: TextStyle(color: Colors.grey),
-      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      body1: TextStyle(fontSize: 14.0),
+      body2: TextStyle(fontSize: 16.0, color: Colors.white),
     ),
   )
 };
