@@ -55,6 +55,30 @@ Future<Map> createIssue(
 }
 
 /*
+* 获取 issue详情
+* */
+Future<Map> fetchIssue(String key) async {
+  final response = await request.get('$API_ISSUE/$key');
+  return response.data;
+}
+
+/*
+* 获取 issue comment
+* */
+Future<List> fetchIssueComments(String key) async {
+  final response = await request.get('$API_ISSUE/$key/comment');
+  return response.data['comments'];
+}
+
+/*
+* 获取 issue work logs
+* */
+Future<List> fetchIssueWorkLogs(String key) async {
+  final response = await request.get('$API_ISSUE/$key/worklog');
+  return response.data['worklogs'];
+}
+
+/*
 * 获取 issue 列表
 * */
 Future<List> fetchIssueList({

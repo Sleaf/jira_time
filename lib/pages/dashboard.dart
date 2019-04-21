@@ -9,14 +9,19 @@ import 'package:jira_time/actions/api.dart';
 import 'package:jira_time/constant/jqls.dart';
 import 'package:jira_time/constant/themes.dart';
 import 'package:jira_time/generated/i18n.dart';
+import 'package:jira_time/pages/issue.dart';
 import 'package:jira_time/pages/login.dart';
 import 'package:jira_time/pages/newIssue.dart';
 import 'package:jira_time/pages/settings.dart';
 import 'package:jira_time/redux/modules/theme.dart';
+import 'package:jira_time/util/lodash.dart';
 import 'package:jira_time/util/redux.dart';
 import 'package:jira_time/util/response.dart';
 import 'package:jira_time/util/system.dart';
+import 'package:jira_time/widgets/customSvg.dart';
 import 'package:jira_time/widgets/customAvatar.dart';
+import 'package:jira_time/widgets/customCard.dart';
+import 'package:jira_time/widgets/endLine.dart';
 import 'package:jira_time/widgets/loading.dart';
 import 'package:jira_time/widgets/placeholderText.dart';
 
@@ -134,21 +139,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             // render every column
             ? ListView(
                 children: issues.map((issue) => IssueItem(issue) as Widget).toList()
-                  ..add(Row(children: <Widget>[
-                    Expanded(child: Divider()),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      child: Text(
-                        S.of(context).no_more_data,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.display1,
-                      ),
-                    ),
-                    Expanded(child: Divider()),
-                  ])),
+                  ..add(EndLine(S.of(context).no_more_data)),
               )
             // render tips
-            : PlaceholderText(S.of(context).no_data);
+            : PlaceholderText(
+                S.of(context).no_data,
+                transform: Matrix4.translationValues(0, -50, 0),
+              );
       }).toList(),
     );
   }
@@ -191,8 +188,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             ),
           );
         },
-        tooltip: S.of(context).newIssue,
-        child: new Icon(Icons.add),
+        tooltip: S.of(context).new_issue,
+        child: Icon(Icons.add),
       ),
     );
   }
@@ -264,12 +261,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     listItems.add(Divider());
     listItems.addAll(this._projects.map((project) => ListTile(
           title: Text(project['name']),
-          leading: SvgPicture(
-            AdvancedNetworkSvg(
-              getAvatarUrl(project),
-              SvgPicture.svgByteDecoder,
-              useDiskCache: true,
-            ),
+          leading: CustomSvg(
+            getAvatarUrl(project),
             width: 32,
           ),
           onTap: () {
@@ -372,57 +365,80 @@ class IssueItem extends StatelessWidget {
 
   const IssueItem(this.data);
 
-  handleTapCard() {
-    Fluttertoast.showToast(msg: '点什么点，还没做！');
-  }
-
   Widget buildHeader(BuildContext context) {
+    const double lineHeight = 30.0;
     final payload = data['fields'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        payload['priority'] != null
-            ? Wrap(
-                alignment: WrapAlignment.center,
-                children: <Widget>[
-                  // priority icon
-                  SvgPicture(
-                    AdvancedNetworkSvg(
-                      payload['priority']['iconUrl'],
-                      SvgPicture.svgByteDecoder,
-                      useDiskCache: true,
+        Wrap(
+          alignment: WrapAlignment.center,
+          children: <Widget>[
+            // priority icon
+            Container(
+              alignment: Alignment.center,
+              height: lineHeight,
+              child: payload['priority'] != null
+                  ? Wrap(
+                      children: <Widget>[
+                        CustomSvg(
+                          payload['priority']['iconUrl'],
+                          width: 16,
+                        ),
+                        // priority name
+                        Text(
+                          $_get(
+                            payload,
+                            ['priority', 'name'],
+                            defaultData: S.of(context).unspecified,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Icon(
+                      Icons.favorite,
+                      color: Theme.of(context).accentColor,
                     ),
-                    width: 16,
-                  ),
-                  // priority name
-                  Text(payload['priority']['name']),
-                  // issue key
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      data['key'],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : Icon(
-                Icons.favorite,
-                color: Theme.of(context).accentColor,
+            ),
+            // issue type icon
+            Container(
+              alignment: Alignment.center,
+              height: lineHeight,
+              padding: EdgeInsets.only(left: 10),
+              child: CustomSvg(
+                payload['issuetype']['iconUrl'],
+                width: 16,
               ),
+            ),
+            // issue key
+            Container(
+              alignment: Alignment.center,
+              height: lineHeight,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                data['key'],
+                style: Theme.of(context).textTheme.title,
+              ),
+            ),
+            // resolution
+            Container(
+              alignment: Alignment.center,
+              height: lineHeight,
+              child: Text(
+                $_get(payload, ['resolution', 'name'], defaultData: ''),
+                style: Theme.of(context).textTheme.display1,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
         // reporter and assignee
         Wrap(
           alignment: WrapAlignment.center,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              height: 30,
-              width: 30,
-              child: CustomAvatar(getAvatarUrl(payload['reporter'])),
+            CustomAvatar(
+              getAvatarUrl(payload['reporter']),
+              squareSize: lineHeight,
             ),
             FractionallySizedBox(
               child: Container(
@@ -433,13 +449,9 @@ class IssueItem extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              height: 30,
-              width: 30,
-              child: CustomAvatar(getAvatarUrl(payload['assignee'])),
+            CustomAvatar(
+              getAvatarUrl(payload['assignee']),
+              squareSize: lineHeight,
             ),
           ],
         )
@@ -458,31 +470,18 @@ class IssueItem extends StatelessWidget {
     );
   }
 
-  Row buildBottom(BuildContext context) {
-    final payload = data['fields'];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(payload['created'])))],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final payload = data['fields'];
     return GestureDetector(
-      onTap: this.handleTapCard,
-      child: Card(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              buildHeader(context),
-              Divider(),
-              buildBody(context),
-              buildBottom(context),
-            ],
-          ),
-        ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Issue(data['key'])));
+      },
+      child: CustomCard(
+        header: buildHeader(context),
+        body: buildBody(context),
+        createdTime: payload['created'],
+        updatedTime: payload['updated'],
       ),
     );
   }

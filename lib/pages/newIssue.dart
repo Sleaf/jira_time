@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jira_time/actions/api.dart';
 import 'package:jira_time/generated/i18n.dart';
+import 'package:jira_time/pages/issue.dart';
 import 'package:jira_time/util/redux.dart';
 import 'package:jira_time/util/response.dart';
+import 'package:jira_time/widgets/customSvg.dart';
 import 'package:jira_time/widgets/loading.dart';
 
 class NewIssue extends StatefulWidget {
@@ -98,16 +100,14 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
           this._fetching = false;
         });
       }
-      // todo to issue detail
-      print('go to detail');
-      print(payload);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Issue(payload['key'])));
     }
   }
 
   Widget buildScaffold(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).newIssue),
+        title: Text(S.of(context).new_issue),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -149,12 +149,8 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
                     child: Row(children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(right: 5),
-                        child: SvgPicture(
-                          AdvancedNetworkSvg(
-                            getAvatarUrl(project),
-                            SvgPicture.svgByteDecoder,
-                            useDiskCache: true,
-                          ),
+                        child: CustomSvg(
+                          getAvatarUrl(project),
                           width: 32,
                         ),
                       ),
@@ -196,12 +192,8 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
                               pictureUrl,
                               width: iconWidth,
                             )
-                          : SvgPicture(
-                              AdvancedNetworkSvg(
-                                pictureUrl,
-                                SvgPicture.svgByteDecoder,
-                                useDiskCache: true,
-                              ),
+                          : CustomSvg(
+                              pictureUrl,
                               width: iconWidth,
                             ),
                     ),
@@ -228,18 +220,20 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
             decoration: InputDecoration(
               labelText: S.of(context).assignee,
               suffix: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    this._assigneeController.text = getAppState(context).userInfo.name;
-                  });
-                },
-                child: Text(
-                  S.of(context).assign_to_me,
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
+                  onTap: () {
+                    setState(() {
+                      this._assigneeController.text = getAppState(context).userInfo.name;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      S.of(context).assign_to_me,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  )),
               errorText: this._formError['assignee'],
             ),
           ),

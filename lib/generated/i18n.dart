@@ -23,9 +23,12 @@ class S implements WidgetsLocalizations {
 
   String get assign_to_me => "Assign to me";
   String get assignee => "Assignee";
+  String get coming_soon => "Coming Soon...";
+  String get comments => "Comments";
   String get create => "Create";
   String get dark_mode => "Dark Mode";
   String get dashboard => "Dashboard";
+  String get description => "Description";
   String get double_click_to_exit => "Double click to exit.";
   String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
   String get error_server => "Server error, please contact with administer of server.";
@@ -37,19 +40,27 @@ class S implements WidgetsLocalizations {
   String get logout => "Sign out";
   String get my_report_issue => "My Report Issue";
   String get my_unresolved_issue => "My Unresolved Issue";
-  String get newIssue => "New Issue";
+  String get newOne => "New";
+  String get new_issue => "New Issue";
+  String get new_work_log => "New Work Log";
   String get no_data => "No Data";
   String get no_more_data => "No More Data";
   String get password => "Password";
+  String get priority => "Priority";
   String get project => "Project";
+  String get reporter => "Reporter";
   String get settings => "Settings";
+  String get status => "Status";
   String get summary => "Summary";
+  String get unassigned => "(Unassigned)";
+  String get unspecified => "(unspecified)";
   String get username => "Username";
   String get validator_hostname_regx => "Hostname must begin with http(s)://";
   String get validator_hostname_required => "Hostname is required";
   String get validator_password_required => "Password is required";
   String get validator_summary_required => "Summary is required";
   String get validator_username_required => "Username is required";
+  String get work_logs => "Work Logs";
 }
 
 class en extends S {
@@ -65,11 +76,17 @@ class zh_CN extends S {
   @override
   String get project => "项目";
   @override
+  String get description => "描述";
+  @override
   String get language => "语言";
+  @override
+  String get unassigned => "(未指派)";
   @override
   String get login => "登录";
   @override
   String get error_fetch_session => "登录失败，请确认服务器地址正确并重新尝试登录。";
+  @override
+  String get coming_soon => "施工中...";
   @override
   String get logout => "退出帐户";
   @override
@@ -95,27 +112,43 @@ class zh_CN extends S {
   @override
   String get error_server => "服务器错误，请联系管理员。";
   @override
+  String get newOne => "新建";
+  @override
   String get dashboard => "仪表盘";
   @override
   String get summary => "概要";
   @override
   String get settings => "设置";
   @override
+  String get work_logs => "工作日志";
+  @override
+  String get comments => "注释";
+  @override
+  String get new_work_log => "登记工时";
+  @override
+  String get unspecified => "(未设定)";
+  @override
+  String get new_issue => "创建问题";
+  @override
   String get issue_type => "问题类型";
   @override
   String get no_data => "暂无数据";
   @override
+  String get reporter => "报告人";
+  @override
   String get double_click_to_exit => "双击返回退出应用";
+  @override
+  String get priority => "优先级";
   @override
   String get validator_password_required => "请填写密码";
   @override
   String get my_report_issue => "我报告的问题";
   @override
-  String get newIssue => "创建问题";
-  @override
   String get assignee => "经办人";
   @override
   String get username => "用户名";
+  @override
+  String get status => "状态";
   @override
   String get validator_hostname_required => "请填写服务器地址";
   @override

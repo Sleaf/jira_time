@@ -84,10 +84,7 @@ class SettingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       _text,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
+      style:Theme.of(context).textTheme.title,
     );
   }
 }
