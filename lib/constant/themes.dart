@@ -16,6 +16,7 @@ final ThemeDataMap = {
       button: TextStyle(color: Colors.white),
       body1: TextStyle(fontSize: 14.0),
       body2: TextStyle(fontSize: 16.0, color: Colors.black),
+      display1: TextStyle(fontSize: 12, color: Colors.black38),
     ),
   ),
   Themes.DARK: ThemeData(
@@ -27,6 +28,7 @@ final ThemeDataMap = {
       button: TextStyle(color: Colors.grey),
       body1: TextStyle(fontSize: 14.0),
       body2: TextStyle(fontSize: 16.0, color: Colors.white),
+      display1: TextStyle(fontSize: 12, color: Colors.white30),
     ),
   )
 };

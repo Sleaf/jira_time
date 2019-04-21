@@ -30,6 +30,7 @@ class S implements WidgetsLocalizations {
   String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
   String get error_server => "Server error, please contact with administer of server.";
   String get error_server_timeout => "Time out, please contact with administer of server.";
+  String get issue_assign_to_me => "Issue Assign To Me";
   String get issue_type => "Issue Type";
   String get language => "Language";
   String get login => "Sign in";
@@ -37,6 +38,8 @@ class S implements WidgetsLocalizations {
   String get my_report_issue => "My Report Issue";
   String get my_unresolved_issue => "My Unresolved Issue";
   String get newIssue => "New Issue";
+  String get no_data => "No Data";
+  String get no_more_data => "No More Data";
   String get password => "Password";
   String get project => "Project";
   String get settings => "Settings";
@@ -45,7 +48,7 @@ class S implements WidgetsLocalizations {
   String get validator_hostname_regx => "Hostname must begin with http(s)://";
   String get validator_hostname_required => "Hostname is required";
   String get validator_password_required => "Password is required";
-  String get validator_summary_required => "Password is required";
+  String get validator_summary_required => "Summary is required";
   String get validator_username_required => "Username is required";
 }
 
@@ -60,7 +63,7 @@ class zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get settings => "设置";
+  String get project => "项目";
   @override
   String get language => "语言";
   @override
@@ -68,21 +71,49 @@ class zh_CN extends S {
   @override
   String get error_fetch_session => "登录失败，请确认服务器地址正确并重新尝试登录。";
   @override
-  String get validator_password_required => "请填写密码";
-  @override
   String get logout => "退出帐户";
   @override
   String get password => "密码";
+  @override
+  String get my_unresolved_issue => "我未解决的问题";
   @override
   String get validator_hostname_regx => "服务器地址必须以http(s)://开头";
   @override
   String get dark_mode => "夜间模式";
   @override
-  String get validator_username_required => "请填写用户名";
+  String get issue_assign_to_me => "指派给我的问题";
+  @override
+  String get validator_username_required => "请填写密码";
+  @override
+  String get no_more_data => "没有更多数据";
+  @override
+  String get assign_to_me => "指派给我";
+  @override
+  String get create => "创建";
+  @override
+  String get validator_summary_required => "请填写概要";
   @override
   String get error_server => "服务器错误，请联系管理员。";
   @override
   String get dashboard => "仪表盘";
+  @override
+  String get summary => "概要";
+  @override
+  String get settings => "设置";
+  @override
+  String get issue_type => "问题类型";
+  @override
+  String get no_data => "暂无数据";
+  @override
+  String get double_click_to_exit => "双击返回退出应用";
+  @override
+  String get validator_password_required => "请填写密码";
+  @override
+  String get my_report_issue => "我报告的问题";
+  @override
+  String get newIssue => "创建问题";
+  @override
+  String get assignee => "经办人";
   @override
   String get username => "用户名";
   @override

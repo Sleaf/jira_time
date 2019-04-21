@@ -7,6 +7,8 @@ const API_USER = '/rest/api/2/user';
 // issue
 const API_ISSUE = '/rest/api/2/issue';
 const API_ISSUE_METAS = '/rest/api/2/issue/createmeta';
+const API_STATUS = '/rest/api/2/status';
+const API_STATUS_CATEGORY = '/rest/api/2/statuscategory';
 
 // projects
 const API_PROJECT = '/rest/api/2/project';

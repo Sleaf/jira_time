@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jira_time/actions/api.dart';
@@ -148,15 +149,24 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
                     child: Row(children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(right: 5),
-                        child: SvgPicture.network(
-                          getAvatarUrl(project),
+                        child: SvgPicture(
+                          AdvancedNetworkSvg(
+                            getAvatarUrl(project),
+                            SvgPicture.svgByteDecoder,
+                            useDiskCache: true,
+                          ),
                           width: 32,
                         ),
                       ),
-                      Text(
-                        project['name'],
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      Container(
+                        constraints: const BoxConstraints(
+                          maxWidth: 190,
+                        ),
+                        child: Text(
+                          project['name'],
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
                     ])))
                 .toList(),
           ),
@@ -172,20 +182,32 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
                 this._selectedIssueType = value;
               });
             },
-            items: getAvailableIssueTypes(this._selectedProject['issuetypes'])
-                .map((issueTypes) => DropdownMenuItem(
-                    value: issueTypes,
-                    child: Row(children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 5),
-                        child: SvgPicture.network(
-                          issueTypes['iconUrl'],
-                          width: 32,
-                        ),
-                      ),
-                      Text(issueTypes['name']),
-                    ])))
-                .toList(),
+            items: getAvailableIssueTypes(this._selectedProject['issuetypes']).map((issueTypes) {
+              final String pictureUrl = issueTypes['iconUrl'];
+              final isImage = RegExp('(png|jpe?g)\$').hasMatch(pictureUrl);
+              const iconWidth = 32.0;
+              return DropdownMenuItem(
+                  value: issueTypes,
+                  child: Row(children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: isImage
+                          ? Image.network(
+                              pictureUrl,
+                              width: iconWidth,
+                            )
+                          : SvgPicture(
+                              AdvancedNetworkSvg(
+                                pictureUrl,
+                                SvgPicture.svgByteDecoder,
+                                useDiskCache: true,
+                              ),
+                              width: iconWidth,
+                            ),
+                    ),
+                    Text(issueTypes['name']),
+                  ]));
+            }).toList(),
           ),
 
           /// Summary

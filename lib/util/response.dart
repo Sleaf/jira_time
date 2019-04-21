@@ -5,4 +5,5 @@ import 'package:dio/dio.dart';
 
 String getServerErrorMsgHelper(DioError error) => error.response.data['errorMessages'].join(' ');
 
-String getAvatarUrl(payload)=>payload['avatarUrls']['48x48'];
+String getAvatarUrl(payload, {int size: 48}) =>
+    payload != null ? payload['avatarUrls']['${size}x${size}'] : null;

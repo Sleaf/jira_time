@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:jira_time/constant/API.dart';
 import 'package:jira_time/util/request.dart';
 
 /*
 * 从服务器获取 session 信息
 * */
-Future fetchSession(String username, String password) async {
+Future<Map> fetchSession(String username, String password) async {
   final response = await request.post(
     API_AUTH_SESSION,
     data: {
@@ -28,7 +26,7 @@ Future deleteSession() async {
 /*
 * 获取可创建的 project / meta
 * */
-Future fetchIssueMeta() async {
+Future<List> fetchIssueMeta() async {
   final response = await request.get(API_ISSUE_METAS);
   return response.data['projects'];
 }
@@ -36,7 +34,7 @@ Future fetchIssueMeta() async {
 /*
 * 创建 issue
 * */
-Future createIssue(
+Future<Map> createIssue(
   String projectId,
   String issueTypeId,
   String summary, {
@@ -59,15 +57,14 @@ Future createIssue(
 /*
 * 获取 issue 列表
 * */
-Future fetchIssueList({
+Future<List> fetchIssueList({
   String jql,
-  String projectName,
-  List<String> statusIds,
+  String projectKey,
   int startAt,
   int maxResults,
 }) async {
-  var response = await request.get(API_SEARCH, queryParameters: {
-    'jql': jql ?? "'project = '${projectName}' and status in (${statusIds.join(',')})",
+  var response = await request.post(API_SEARCH, data: {
+    'jql': jql ?? 'project = "$projectKey" order by updated DESC',
     'startAt': startAt,
     'maxResults': maxResults,
   });
@@ -77,7 +74,7 @@ Future fetchIssueList({
 /*
 * 从服务器获取 用户信息
 * */
-Future fetchUserInfo(String username) async {
+Future<Map> fetchUserInfo(String username) async {
   final response = await request.get(
     API_USER,
     queryParameters: {
@@ -90,15 +87,31 @@ Future fetchUserInfo(String username) async {
 /*
 * 从服务器获取 有权限的所有项目
 * */
-Future fetchAllProjects() async {
+Future<List> fetchAllProjects() async {
   final response = await request.get(API_PROJECT);
   return response.data;
 }
 
 /*
-* 从服务器获取 有权限的所有项目
+* 从服务器获取 收藏的过滤器
 * */
-Future fetchFavouriteFilter() async {
+Future<List> fetchFavouriteFilter() async {
   final response = await request.get(API_FAVOURITE_FILTER);
+  return response.data;
+}
+
+/*
+* 从服务器获取 所有 status category
+* */
+Future<List> fetchAllStatusCategories() async {
+  final response = await request.get(API_STATUS_CATEGORY);
+  return (response.data as List).where((item) => item['key'] != 'undefined').toList();
+}
+
+/*
+* 从服务器获取 所有 status
+* */
+Future<List> fetchAllStatus() async {
+  final response = await request.get(API_STATUS);
   return response.data;
 }
