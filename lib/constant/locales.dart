@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 enum Locales {
-  en,
+  followSystem,
   zh_CN,
+  en,
 }
 
 const LocaleMap = const {
-  Locales.en: const Locale('en', ''),
   Locales.zh_CN: const Locale('zh', 'ZN'),
+  Locales.en: const Locale('en', ''),
 };
 
 const LocaleNameMap = const {

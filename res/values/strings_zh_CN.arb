@@ -1,4 +1,6 @@
 {
+  "$": "简体中文",
+  "follow_system":"跟随系统",
   "login": "登录",
   "logout": "退出帐户",
   "dashboard": "仪表盘",

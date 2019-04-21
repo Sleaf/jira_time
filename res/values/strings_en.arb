@@ -1,4 +1,6 @@
 {
+  "$": "English",
+  "follow_system":"Follow System",
   "login": "Sign in",
   "logout": "Sign out",
   "dashboard": "Dashboard",

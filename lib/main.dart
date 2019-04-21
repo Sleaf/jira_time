@@ -34,7 +34,7 @@ class Main extends StatelessWidget {
             title: APP_NAME,
             home: homePage,
             theme: ThemeDataMap[store.state.theme],
-            locale: LocaleMap[store.state.locale],
+            locale: LocaleMap[store.state.locale] ?? MaterialLocalizations.of(context),
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

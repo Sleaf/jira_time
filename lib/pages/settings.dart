@@ -7,6 +7,7 @@ import 'package:jira_time/util/redux.dart';
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Locales locale = getAppState(context).locale;
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).settings),
@@ -16,7 +17,8 @@ class Settings extends StatelessWidget {
           SettingRow(
             child: SettingText(S.of(context).language),
             leading: Icon(Icons.language),
-            trailing: Text(LocaleNameMap[getAppState(context).locale]),
+            trailing: Text(
+                locale == Locales.followSystem ? S.of(context).follow_system : S.of(context).$),
             onTap: () {
               showDialog(
                 context: context, //BuildContext对象
@@ -84,7 +86,7 @@ class SettingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       _text,
-      style:Theme.of(context).textTheme.title,
+      style: Theme.of(context).textTheme.title,
     );
   }
 }
@@ -106,7 +108,7 @@ class LanguageDialog extends Dialog {
           //保证控件居中效果
           child: Container(
             width: 220.0,
-            height: 70.0 * LocaleNameMap.length,
+            height: 70.0 * Locales.values.length,
             decoration: ShapeDecoration(
               color: Theme.of(context).backgroundColor,
               shape: RoundedRectangleBorder(
@@ -116,14 +118,16 @@ class LanguageDialog extends Dialog {
               ),
             ),
             child: ListView(
-              children: LocaleNameMap.entries.map((MapEntry<Locales, String> locale) {
+              children: Locales.values.map((Locales locale) {
                 return ListTile(
                   title: Container(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    child: Text(locale.value),
+                    child: Text(locale == Locales.followSystem
+                        ? S.of(context).follow_system
+                        : LocaleNameMap[locale]),
                   ),
                   onTap: () {
-                    dispatchAppAction(context, RefreshLocaleDataAction(locale.key));
+                    dispatchAppAction(context, RefreshLocaleDataAction(locale));
                     Navigator.pop(context);
                   },
                 );

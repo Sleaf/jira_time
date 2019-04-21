@@ -21,6 +21,7 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get $ => "English";
   String get assign_to_me => "Assign to me";
   String get assignee => "Assignee";
   String get coming_soon => "Coming Soon...";
@@ -33,6 +34,7 @@ class S implements WidgetsLocalizations {
   String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
   String get error_server => "Server error, please contact with administer of server.";
   String get error_server_timeout => "Time out, please contact with administer of server.";
+  String get follow_system => "Follow System";
   String get issue_assign_to_me => "Issue Assign To Me";
   String get issue_type => "Issue Type";
   String get language => "Language";
@@ -124,6 +126,8 @@ class zh_CN extends S {
   @override
   String get comments => "注释";
   @override
+  String get $ => "简体中文";
+  @override
   String get new_work_log => "登记工时";
   @override
   String get unspecified => "(未设定)";
@@ -135,6 +139,8 @@ class zh_CN extends S {
   String get no_data => "暂无数据";
   @override
   String get reporter => "报告人";
+  @override
+  String get follow_system => "跟随系统";
   @override
   String get double_click_to_exit => "双击返回退出应用";
   @override
