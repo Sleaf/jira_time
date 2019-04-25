@@ -1,9 +1,7 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_networkimage/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:jira_time/actions/actions.dart';
 import 'package:jira_time/actions/api.dart';
 import 'package:jira_time/constant/jqls.dart';
@@ -68,7 +66,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         this._loaded = true;
       });
     }, onError: (e) {
-      print(e);
+      print((e as DioError).request.data);
+      print((e as DioError).response.data);
     }).then((item) {
       updateIssues(
         S.of(context).issue_assign_to_me,

@@ -29,9 +29,11 @@ class S implements WidgetsLocalizations {
   String get create => "Create";
   String get dark_mode => "Dark Mode";
   String get dashboard => "Dashboard";
+  String get describe_work => "Describe your work";
   String get description => "Description";
   String get double_click_to_exit => "Double click to exit.";
   String get error_fetch_session => "Fail to sign in, make sure your hostname is correct please.";
+  String get error_happened => "There are some trouble, please check and try again.";
   String get error_server => "Server error, please contact with administer of server.";
   String get error_server_timeout => "Time out, please contact with administer of server.";
   String get follow_system => "Follow System";
@@ -43,6 +45,7 @@ class S implements WidgetsLocalizations {
   String get my_report_issue => "My Report Issue";
   String get my_unresolved_issue => "My Unresolved Issue";
   String get newOne => "New";
+  String get new_comments => "New Comment";
   String get new_issue => "New Issue";
   String get new_work_log => "New Work Log";
   String get no_data => "No Data";
@@ -53,16 +56,26 @@ class S implements WidgetsLocalizations {
   String get reporter => "Reporter";
   String get settings => "Settings";
   String get status => "Status";
+  String get submit => "Submit";
+  String get submitted_successful => "Submitted Successful";
   String get summary => "Summary";
   String get unassigned => "(Unassigned)";
   String get unspecified => "(unspecified)";
   String get username => "Username";
+  String get validator_comment_required => "Comment is required";
+  String get validator_comments_required => "Comments is required";
+  String get validator_description_required => "Description is required";
   String get validator_hostname_regx => "Hostname must begin with http(s)://";
   String get validator_hostname_required => "Hostname is required";
   String get validator_password_required => "Password is required";
   String get validator_summary_required => "Summary is required";
   String get validator_username_required => "Username is required";
+  String get validator_work_time_illegal => "Work time is illegal, please check it follow the rule ( _w_d_h_m ) or pure digital. ";
+  String get validator_work_time_required => "Work time is required";
   String get work_logs => "Work Logs";
+  String get work_start_time => "Work Start Time";
+  String get work_time => "Work Time";
+  String get work_time_hint => "eg. 1w2d8h3m ,'h' by default for pure digital";
 }
 
 class en extends S {
@@ -76,17 +89,17 @@ class zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get project => "项目";
+  String get new_comments => "新增注释";
   @override
-  String get description => "描述";
+  String get project => "项目";
   @override
   String get language => "语言";
   @override
   String get unassigned => "(未指派)";
   @override
-  String get login => "登录";
-  @override
   String get error_fetch_session => "登录失败，请确认服务器地址正确并重新尝试登录。";
+  @override
+  String get work_time_hint => "例如: 1w2d8h3m ,默认纯数字为h";
   @override
   String get coming_soon => "施工中...";
   @override
@@ -98,45 +111,73 @@ class zh_CN extends S {
   @override
   String get validator_hostname_regx => "服务器地址必须以http(s)://开头";
   @override
-  String get dark_mode => "夜间模式";
-  @override
-  String get issue_assign_to_me => "指派给我的问题";
-  @override
   String get validator_username_required => "请填写密码";
   @override
   String get no_more_data => "没有更多数据";
   @override
-  String get assign_to_me => "指派给我";
+  String get validator_work_time_required => "请填写工作时长";
   @override
   String get create => "创建";
   @override
-  String get validator_summary_required => "请填写概要";
-  @override
-  String get error_server => "服务器错误，请联系管理员。";
-  @override
-  String get newOne => "新建";
-  @override
   String get dashboard => "仪表盘";
-  @override
-  String get summary => "概要";
   @override
   String get settings => "设置";
   @override
-  String get work_logs => "工作日志";
-  @override
-  String get comments => "注释";
+  String get work_start_time => "工作开始时间";
   @override
   String get $ => "简体中文";
-  @override
-  String get new_work_log => "登记工时";
   @override
   String get unspecified => "(未设定)";
   @override
   String get new_issue => "创建问题";
   @override
+  String get no_data => "暂无数据";
+  @override
+  String get priority => "优先级";
+  @override
+  String get describe_work => "描述你的工作内容";
+  @override
+  String get validator_work_time_illegal => "工作时长格式不正确，请确认是否为纯数字或符合格式： _w_d_h_m ";
+  @override
+  String get work_time => "工作时长";
+  @override
+  String get assignee => "经办人";
+  @override
+  String get status => "状态";
+  @override
+  String get error_server_timeout => "请求超时，请联系管理员。";
+  @override
+  String get submit => "提交";
+  @override
+  String get description => "描述";
+  @override
+  String get login => "登录";
+  @override
+  String get dark_mode => "夜间模式";
+  @override
+  String get issue_assign_to_me => "指派给我的问题";
+  @override
+  String get assign_to_me => "指派给我";
+  @override
+  String get validator_summary_required => "请填写概要";
+  @override
+  String get validator_description_required => "请填写工作内容";
+  @override
+  String get error_server => "服务器错误，请联系管理员。";
+  @override
+  String get newOne => "新建";
+  @override
+  String get summary => "概要";
+  @override
+  String get work_logs => "工作日志";
+  @override
+  String get comments => "注释";
+  @override
+  String get new_work_log => "登记工时";
+  @override
   String get issue_type => "问题类型";
   @override
-  String get no_data => "暂无数据";
+  String get submitted_successful => "提交成功";
   @override
   String get reporter => "报告人";
   @override
@@ -144,21 +185,19 @@ class zh_CN extends S {
   @override
   String get double_click_to_exit => "双击返回退出应用";
   @override
-  String get priority => "优先级";
-  @override
   String get validator_password_required => "请填写密码";
+  @override
+  String get validator_comment_required => "请填写注释";
   @override
   String get my_report_issue => "我报告的问题";
   @override
-  String get assignee => "经办人";
+  String get validator_comments_required => "请填写注释内容";
   @override
   String get username => "用户名";
   @override
-  String get status => "状态";
-  @override
   String get validator_hostname_required => "请填写服务器地址";
   @override
-  String get error_server_timeout => "请求超时，请联系管理员。";
+  String get error_happened => "请求出错，请确认格式是否正确，并重新再试";
 }
 
 

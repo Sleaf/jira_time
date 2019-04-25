@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jira_time/util/string.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget header;
@@ -7,6 +8,7 @@ class CustomCard extends StatelessWidget {
   final Widget foot;
   final String createdTime;
   final String updatedTime;
+  final bool showHHmm;
 
   const CustomCard({
     Key key,
@@ -15,6 +17,7 @@ class CustomCard extends StatelessWidget {
     this.foot,
     this.createdTime,
     this.updatedTime,
+    this.showHHmm: false,
   }) : super(key: key);
 
   @override
@@ -32,11 +35,19 @@ class CustomCard extends StatelessWidget {
       colItems.add(this.foot);
     } else if (this.updatedTime != null) {
       final footItems = <Widget>[
-        Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(this.updatedTime))),
+        Text(formatDateTimeString(
+          dateString: this.updatedTime,
+          context: context,
+          HHmm: this.showHHmm,
+        )),
       ];
       if (this.createdTime != null) {
         footItems.insertAll(0, [
-          Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(this.createdTime))),
+          Text(formatDateTimeString(
+            dateString: this.createdTime,
+            context: context,
+            HHmm: this.showHHmm,
+          )),
           Icon(Icons.arrow_right, color: Theme.of(context).dividerColor),
         ]);
       }

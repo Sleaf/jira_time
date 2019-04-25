@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:jira_time/actions/api.dart';
 import 'package:jira_time/generated/i18n.dart';
+import 'package:jira_time/util/customDialog.dart';
 import 'package:jira_time/widgets/customSvg.dart';
 import 'package:jira_time/widgets/customCard.dart';
+import 'package:jira_time/util/dateTimePicker.dart';
+import 'package:jira_time/util/string.dart';
 import 'package:jira_time/widgets/endLine.dart';
 import 'package:jira_time/widgets/loading.dart';
 import 'package:jira_time/util/lodash.dart';
@@ -38,6 +43,16 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
         this._issueData = issueData;
       });
     });
+    fetchComments();
+    fetchWorkLogs();
+  }
+
+  fetchComments({clear: false}) {
+    if (clear) {
+      setState(() {
+        this._issueComments = null;
+      });
+    }
     // fetch issue comments
     fetchIssueComments(this.issueKey).then((comments) {
       setState(() {
@@ -49,6 +64,14 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
           });
       });
     });
+  }
+
+  fetchWorkLogs({clear: false}) {
+    if (clear) {
+      setState(() {
+        this._issueWorkLogs = null;
+      });
+    }
     // fetch issue work logs
     fetchIssueWorkLogs(this.issueKey).then((workLogs) {
       setState(() {
@@ -60,6 +83,53 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
           });
       });
     });
+  }
+
+  handleSubmitComments(String commentBody) async {
+    // post to server
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => Loading(),
+      );
+      await addIssueComments(this.issueKey, commentBody);
+      Navigator.of(context).pop(); // exit input dialog
+      fetchComments(clear: true);
+      Fluttertoast.showToast(msg: S.of(context).submitted_successful);
+    } catch (e) {
+      Fluttertoast.showToast(msg: S.of(context).error_happened);
+      return null;
+    } finally {
+      Navigator.of(context).pop(); // exit fetching dialog
+    }
+  }
+
+  handleSubmitWorkLog(String workLogComment, DateTime started, int timeSpentSeconds) async {
+    // post to server
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => Loading(),
+      );
+      await addIssueWorkLogs(
+        this.issueKey,
+        workLogComment: workLogComment,
+        started: started,
+        timeSpentSeconds: timeSpentSeconds,
+      );
+      Navigator.of(context).pop(); // exit input dialog
+      fetchWorkLogs(clear: true);
+      Fluttertoast.showToast(msg: S.of(context).submitted_successful);
+    } catch (e) {
+      print((e as DioError).request.data);
+      print((e as DioError).response.data);
+      Fluttertoast.showToast(msg: S.of(context).error_happened);
+      return null;
+    } finally {
+      Navigator.of(context).pop(); // exit fetching dialog
+    }
   }
 
   Widget buildContent(BuildContext context) {
@@ -173,8 +243,14 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
     listItems.add(LargeItem(
       S.of(context).comments,
       createIcon: Icons.add,
-      onTapCreateIcon: () {
-        Fluttertoast.showToast(msg: S.of(context).coming_soon);
+      onTapCreateIcon: () async {
+        showCustomDialog(
+          context: context,
+          child: CommentInput(
+            onSubmit: this.handleSubmitComments,
+          ),
+          barrierDismissible: false,
+        );
       },
       child: this._issueComments != null
           ? this._issueComments.length > 0
@@ -189,6 +265,7 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
                       ),
                       body: Text(commentData['body']),
                       updatedTime: commentData['updated'],
+                      showHHmm: true,
                     );
                   }).toList(),
                 )
@@ -202,8 +279,14 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
     listItems.add(LargeItem(
       S.of(context).work_logs,
       createIcon: Icons.add,
-      onTapCreateIcon: () {
-        Fluttertoast.showToast(msg: S.of(context).coming_soon);
+      onTapCreateIcon: () async {
+        showCustomDialog(
+          context: context,
+          child: WorkLogInput(
+            onSubmit: this.handleSubmitWorkLog,
+          ),
+          barrierDismissible: false,
+        );
       },
       child: this._issueWorkLogs != null
           ? this._issueWorkLogs.length > 0
@@ -217,8 +300,9 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
                           Text(workLogData['timeSpent'], style: Theme.of(context).textTheme.title),
                         ],
                       ),
-                      body: Text(workLogData['comment']),
+                      body: Text(workLogData['comment'] ?? ''),
                       updatedTime: workLogData['started'],
+                      showHHmm: true,
                     );
                   }).toList(),
                 )
@@ -244,11 +328,6 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
         title: Text(this.issueKey),
       ),
       body: this._issueData != null ? this.buildContent(context) : Loading(),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () {},
-//        tooltip: S.of(context).new_work_log,
-//        child: Icon(Icons.edit),
-//      ),
     );
   }
 }
@@ -281,13 +360,6 @@ class LargeItem extends StatelessWidget {
               ),
             )),
       );
-//      titleItems.add(
-//        FloatingActionButton.extended(
-//          onPressed: this.onTapCreateIcon,
-//          icon: Icon(this.createIcon),
-//          label: Text(S.of(context).newOne),
-//        ),
-//      );
     }
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 20),
@@ -311,5 +383,154 @@ class LargeItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class CommentInput extends StatelessWidget {
+  GlobalKey _formKey = GlobalKey<FormState>();
+  TextEditingController _commentController = TextEditingController();
+  final Function onSubmit;
+
+  CommentInput({Key key, this.onSubmit}) : super(key: key);
+
+  handleSubmit() {
+    final formState = _formKey.currentState as FormState;
+    if (formState.validate()) {
+      this.onSubmit(_commentController.text);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: MediaQuery.of(context).size.width * .8,
+        color: Theme.of(context).backgroundColor,
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey, //设置globalKey，用于后面获取FormState
+          child: Wrap(
+            children: <Widget>[
+              Text(
+                S.of(context).new_comments,
+                style: Theme.of(context).textTheme.title,
+              ),
+              TextFormField(
+                controller: this._commentController,
+                maxLines: 10,
+                validator: (value) =>
+                    value.length > 0 ? null : S.of(context).validator_comment_required,
+              ),
+              Container(
+                width: double.infinity,
+                child: RaisedButton(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(S.of(context).submit),
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  onPressed: this.handleSubmit,
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+class WorkLogInput extends StatefulWidget {
+  final Function onSubmit;
+
+  WorkLogInput({Key key, this.onSubmit}) : super(key: key);
+
+  @override
+  _WorkLogInputState createState() => _WorkLogInputState();
+}
+
+class _WorkLogInputState extends State<WorkLogInput> {
+  GlobalKey _formKey = GlobalKey<FormState>();
+  TextEditingController _workLogCommentController = TextEditingController();
+  TextEditingController _workLogTimeController = TextEditingController();
+  DateTime _workTime = DateTime.now();
+
+  handleSubmit() {
+    final formState = _formKey.currentState as FormState;
+    if (formState.validate()) {
+      this.widget.onSubmit(
+          _workLogCommentController.text, _workTime, parseWorkLogStr(_workLogTimeController.text));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: MediaQuery.of(context).size.width * .9,
+        color: Theme.of(context).backgroundColor,
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey, //设置globalKey，用于后面获取FormState
+          child: Wrap(
+            children: <Widget>[
+              // start time
+              ListTile(
+                title: Text(S.of(context).work_start_time),
+                trailing: GestureDetector(
+                  onTap: () async {
+                    final newWorkTime = await showDateTimePicker(
+                      context: context,
+                      initialDate: _workTime,
+                    );
+                    setState(() {
+                      this._workTime = newWorkTime;
+                    });
+                  },
+                  child: Text(formatDateTimeString(
+                    context: context,
+                    date: _workTime,
+                    HHmm: true,
+                  )),
+                ),
+              ),
+              // work time
+              TextFormField(
+                controller: _workLogTimeController,
+                autovalidate: true,
+                decoration: InputDecoration(
+                  labelText: S.of(context).work_time,
+                  hintText: S.of(context).work_time_hint,
+                  icon: Icon(Icons.access_time),
+                ),
+                inputFormatters: [
+                  BlacklistingTextInputFormatter(RegExp('[^0-9wdhm.]')),
+                ],
+                validator: (String content) {
+                  if (content.length == 0) {
+                    return S.of(context).validator_work_time_required;
+                  }
+                  if (parseWorkLogStr(content) == null) {
+                    return S.of(context).validator_work_time_illegal;
+                  }
+                  return null;
+                },
+              ),
+              Divider(),
+              TextFormField(
+                controller: this._workLogCommentController,
+                decoration: InputDecoration(
+                  labelText: S.of(context).describe_work,
+                ),
+                maxLines: 10,
+              ),
+              Container(
+                width: double.infinity,
+                child: RaisedButton(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(S.of(context).submit),
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  onPressed: this.handleSubmit,
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

@@ -41,7 +41,8 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
         this._loaded = true;
       });
     }, onError: (e) {
-      print(e);
+      print((e as DioError).request.data);
+      print((e as DioError).response.data);
     });
     // add assignee listener
     this._assigneeController.addListener(this.handleInputAssignee);

@@ -3,9 +3,7 @@
 * */
 
 T $_get<T>(Map data, List<String> path, {T defaultData}) {
-  if (path.length == 0) {
-    throw '[path] should be List<String> not empty!';
-  }
+  assert(path.length > 0, '[path] should be List<String> not empty!');
   Map curData = data;
   while (path.isNotEmpty) {
     final curPath = path.removeAt(0);
@@ -19,4 +17,5 @@ T $_get<T>(Map data, List<String> path, {T defaultData}) {
       return defaultData;
     }
   }
+  return curData as T;
 }

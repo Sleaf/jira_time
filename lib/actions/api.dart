@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jira_time/constant/API.dart';
 import 'package:jira_time/util/request.dart';
 
@@ -71,10 +72,37 @@ Future<List> fetchIssueComments(String key) async {
 }
 
 /*
+* 新增 issue comment
+* */
+Future addIssueComments(String key, String body) async {
+  final response = await request.post('$API_ISSUE/$key/comment', data: {
+    'body': body,
+  });
+  return response.data;
+}
+
+/*
 * 获取 issue work logs
 * */
 Future<List> fetchIssueWorkLogs(String key) async {
   final response = await request.get('$API_ISSUE/$key/worklog');
+  return response.data['worklogs'];
+}
+
+/*
+* 新增 issue work logs
+* */
+Future<List> addIssueWorkLogs(
+  String key, {
+  @required String workLogComment,
+  @required DateTime started,
+  @required int timeSpentSeconds,
+}) async {
+  final response = await request.post('$API_ISSUE/$key/worklog', data: {
+    'comment': workLogComment,
+    'started': started.toIso8601String().substring(0,22) + '+0800',
+    'timeSpentSeconds': timeSpentSeconds,
+  });
   return response.data['worklogs'];
 }
 

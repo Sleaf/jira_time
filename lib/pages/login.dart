@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
       TextEditingController(text: stateFromMain.env.baseUrl ?? 'https://');
   TextEditingController _usernameController =
       TextEditingController(text: stateFromMain.env.savedUsername);
-  TextEditingController _pwdController = new TextEditingController();
+  TextEditingController _pwdController = TextEditingController();
   GlobalKey _formKey = GlobalKey<FormState>();
   bool _formValidated = false; // 表单是否验证通过
   bool _fetching = false; // 是否正在登录
@@ -106,14 +106,20 @@ class _LoginState extends State<Login> {
           ),
           TextFormField(
             controller: _usernameController,
-            decoration: InputDecoration(hintText: S.of(context).username, icon: Icon(Icons.person)),
+            decoration: InputDecoration(
+              hintText: S.of(context).username,
+              icon: Icon(Icons.person),
+            ),
             validator: (String content) {
               return content.length > 0 ? null : S.of(context).validator_username_required;
             },
           ),
           TextFormField(
             controller: _pwdController,
-            decoration: InputDecoration(hintText: S.of(context).password, icon: Icon(Icons.lock)),
+            decoration: InputDecoration(
+              hintText: S.of(context).password,
+              icon: Icon(Icons.lock),
+            ),
             obscureText: true,
             validator: (String content) {
               return content.length > 0 ? null : S.of(context).validator_password_required;

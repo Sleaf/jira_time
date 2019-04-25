@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jira_time/constant/locales.dart';
 import 'package:jira_time/generated/i18n.dart';
 import 'package:jira_time/redux/modules/locale.dart';
+import 'package:jira_time/util/customDialog.dart';
 import 'package:jira_time/util/redux.dart';
 
 class Settings extends StatelessWidget {
@@ -20,15 +21,39 @@ class Settings extends StatelessWidget {
             trailing: Text(
                 locale == Locales.followSystem ? S.of(context).follow_system : S.of(context).$),
             onTap: () {
-              showDialog(
+              showCustomDialog(
                 context: context, //BuildContext对象
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return LanguageDialog(
-                    //调用对话框
-                    value: '正在获取详情...',
-                  );
-                },
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(3.0),
+                      ),
+                    ),
+                  ),
+                  child: Wrap(
+                    direction: Axis.vertical,
+                    children: Locales.values.map((Locales locale) {
+                      return GestureDetector(
+                        child: Container(
+                          width: 200,
+                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                          child: Text(
+                            locale == Locales.followSystem
+                                ? S.of(context).follow_system
+                                : LocaleNameMap[locale],
+                            style: Theme.of(context).textTheme.subhead,
+                          ),
+                        ),
+                        onTap: () {
+                          dispatchAppAction(context, RefreshLocaleDataAction(locale));
+                          Navigator.pop(context);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
               );
             },
           ),
@@ -87,55 +112,6 @@ class SettingText extends StatelessWidget {
     return Text(
       _text,
       style: Theme.of(context).textTheme.title,
-    );
-  }
-}
-
-class LanguageDialog extends Dialog {
-  final String value;
-  final Function onChanged;
-
-  LanguageDialog({Key key, this.value, this.onChanged}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: Material(
-        //创建透明层
-        type: MaterialType.transparency, //透明类型
-        child: Center(
-          //保证控件居中效果
-          child: Container(
-            width: 220.0,
-            height: 70.0 * Locales.values.length,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).backgroundColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(2.0),
-                ),
-              ),
-            ),
-            child: ListView(
-              children: Locales.values.map((Locales locale) {
-                return ListTile(
-                  title: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    child: Text(locale == Locales.followSystem
-                        ? S.of(context).follow_system
-                        : LocaleNameMap[locale]),
-                  ),
-                  onTap: () {
-                    dispatchAppAction(context, RefreshLocaleDataAction(locale));
-                    Navigator.pop(context);
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
