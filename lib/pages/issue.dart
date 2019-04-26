@@ -416,6 +416,8 @@ class CommentInput extends StatelessWidget {
               ),
               TextFormField(
                 controller: this._commentController,
+                autofocus: true,
+                autovalidate: true,
                 maxLines: 10,
                 validator: (value) =>
                     value.length > 0 ? null : S.of(context).validator_comment_required,
@@ -470,10 +472,16 @@ class _WorkLogInputState extends State<WorkLogInput> {
           child: Wrap(
             children: <Widget>[
               // start time
-              ListTile(
-                title: Text(S.of(context).work_start_time),
-                trailing: GestureDetector(
-                  onTap: () async {
+              Text(
+                S.of(context).work_start_time,
+                style: Theme.of(context).textTheme.title,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                width: double.infinity,
+                child: RaisedButton(
+                  color: Theme.of(context).backgroundColor,
+                  onPressed: () async {
                     final newWorkTime = await showDateTimePicker(
                       context: context,
                       initialDate: _workTime,
@@ -482,11 +490,21 @@ class _WorkLogInputState extends State<WorkLogInput> {
                       this._workTime = newWorkTime;
                     });
                   },
-                  child: Text(formatDateTimeString(
-                    context: context,
-                    date: _workTime,
-                    HHmm: true,
-                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.access_time),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Text(formatDateTimeString(
+                          context: context,
+                          date: _workTime,
+                          HHmm: true,
+                        )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               // work time
@@ -496,7 +514,6 @@ class _WorkLogInputState extends State<WorkLogInput> {
                 decoration: InputDecoration(
                   labelText: S.of(context).work_time,
                   hintText: S.of(context).work_time_hint,
-                  icon: Icon(Icons.access_time),
                 ),
                 inputFormatters: [
                   BlacklistingTextInputFormatter(RegExp('[^0-9wdhm.]')),

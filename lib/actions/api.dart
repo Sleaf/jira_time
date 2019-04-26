@@ -90,6 +90,14 @@ Future<List> fetchIssueWorkLogs(String key) async {
 }
 
 /*
+* 获取 issue work logs
+* */
+Future<List> fetchIssueAttachments(String key) async {
+  final response = await request.get('$API_ISSUE/$key/attachments');
+  return response.data;
+}
+
+/*
 * 新增 issue work logs
 * */
 Future<List> addIssueWorkLogs(
@@ -100,7 +108,7 @@ Future<List> addIssueWorkLogs(
 }) async {
   final response = await request.post('$API_ISSUE/$key/worklog', data: {
     'comment': workLogComment,
-    'started': started.toIso8601String().substring(0,22) + '+0800',
+    'started': started.toIso8601String().substring(0, 22) + '+0800',
     'timeSpentSeconds': timeSpentSeconds,
   });
   return response.data['worklogs'];
