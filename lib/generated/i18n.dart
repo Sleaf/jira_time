@@ -44,9 +44,9 @@ class S implements WidgetsLocalizations {
   String get logout => "Sign out";
   String get my_report_issue => "My Report Issue";
   String get my_unresolved_issue => "My Unresolved Issue";
-  String get newOne => "New";
   String get new_comments => "New Comment";
   String get new_issue => "New Issue";
+  String get new_one => "New";
   String get new_work_log => "New Work Log";
   String get no_data => "No Data";
   String get no_more_data => "No More Data";
@@ -149,6 +149,8 @@ class zh_CN extends S {
   @override
   String get submit => "提交";
   @override
+  String get new_one => "新建";
+  @override
   String get description => "描述";
   @override
   String get login => "登录";
@@ -164,8 +166,6 @@ class zh_CN extends S {
   String get validator_description_required => "请填写工作内容";
   @override
   String get error_server => "服务器错误，请联系管理员。";
-  @override
-  String get newOne => "新建";
   @override
   String get summary => "概要";
   @override

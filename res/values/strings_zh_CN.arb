@@ -17,7 +17,7 @@
   "work_time_hint": "例如: 1w2d8h3m ,默认纯数字为h",
   "no_more_data": "没有更多数据",
   "dark_mode": "夜间模式",
-  "newOne": "新建",
+  "new_one": "新建",
   "new_issue": "创建问题",
   "new_comments": "新增注释",
   "new_work_log": "登记工时",

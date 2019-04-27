@@ -355,7 +355,7 @@ class LargeItem extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   Icon(this.createIcon),
-                  Text(S.of(context).newOne),
+                  Text(S.of(context).new_one),
                 ],
               ),
             )),
