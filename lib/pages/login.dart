@@ -15,8 +15,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _hostController =
-      TextEditingController(text: stateFromMain.env.baseUrl ?? 'https://');
   TextEditingController _usernameController =
       TextEditingController(text: stateFromMain.env.savedUsername);
   TextEditingController _pwdController = TextEditingController();
@@ -37,7 +35,7 @@ class _LoginState extends State<Login> {
     });
     final errorMessage = await login(
       context,
-      _hostController.text.trim(),
+      'https://jira.hypers.com',
       _usernameController.text,
       _pwdController.text,
     );
@@ -88,22 +86,6 @@ class _LoginState extends State<Login> {
       },
       child: Column(
         children: <Widget>[
-          TextFormField(
-            controller: _hostController,
-            decoration: InputDecoration(
-              hintText: 'http(s)://jira.company.com',
-              icon: Icon(Icons.cloud_queue),
-            ),
-            validator: (String content) {
-              if (content.length == 0) {
-                return S.of(context).validator_hostname_required;
-              }
-              if (!RegExp('^https?:\/\/').hasMatch(content)) {
-                return S.of(context).validator_hostname_regx;
-              }
-              return null;
-            },
-          ),
           TextFormField(
             controller: _usernameController,
             decoration: InputDecoration(
