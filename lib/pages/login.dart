@@ -61,13 +61,13 @@ class _LoginState extends State<Login> {
       converter: (store) => store.state,
       builder: (context, state) {
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
           decoration: BoxDecoration(color: Color.fromRGBO(240, 240, 240, .5)),
           child: Column(
             children: <Widget>[
               Container(
                 height: 100,
-                margin: const EdgeInsets.only(top: 75, bottom: 20),
+                margin: EdgeInsets.only(top: 75, bottom: 20),
                 child: Image(
                   image: AssetImage("assets/images/logo.png"),
                 ),
@@ -127,7 +127,7 @@ class _LoginState extends State<Login> {
           ),
           // 登录按钮
           Padding(
-            padding: const EdgeInsets.only(top: 28.0),
+            padding: EdgeInsets.only(top: 28.0),
             child: Row(
               children: <Widget>[
                 Expanded(

@@ -16,7 +16,7 @@ class UserDisplay extends StatelessWidget {
         CustomAvatar(
           getAvatarUrl(this.userData),
           squareSize: 20,
-          margin: const EdgeInsets.only(right: 5),
+          margin: EdgeInsets.only(right: 5),
         ),
         Text(
           $_get(

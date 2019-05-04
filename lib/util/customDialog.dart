@@ -17,7 +17,7 @@ showCustomDialog({
         buildWidgets.add(GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             child: Icon(
               Icons.close,
               size: 24,

@@ -160,7 +160,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             : Text(S.of(context).dashboard),
         bottom: TabBar(
           controller: _tabController,
-          labelPadding: const EdgeInsets.symmetric(
+          labelPadding: EdgeInsets.symmetric(
             vertical: 5,
             horizontal: 15,
           ),
@@ -305,7 +305,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     return Drawer(
       //侧边栏按钮Drawer
       child: ListView(
-        padding: const EdgeInsets.all(0.0),
+        padding: EdgeInsets.all(0.0),
         children: listItems,
       ),
     );

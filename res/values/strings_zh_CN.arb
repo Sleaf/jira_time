@@ -41,7 +41,7 @@
   "coming_soon": "施工中...",
   "validator_hostname_required": "请填写服务器地址",
   "validator_hostname_regx": "服务器地址必须以http(s)://开头",
-  "validator_username_required": "请填写密码",
+  "validator_username_required": "请填写用户名",
   "validator_comments_required": "请填写注释内容",
   "validator_password_required": "请填写密码",
   "validator_comment_required": "请填写注释",

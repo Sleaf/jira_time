@@ -23,5 +23,5 @@ Future<DateTime> showDateTimePicker({
   if (time == null) {
     return initialDate;
   }
-  return date.add(Duration(hours: time.hour, minutes: time.minute));;
+  return date.add(Duration(hours: time.hour, minutes: time.minute));
 }

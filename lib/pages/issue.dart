@@ -152,7 +152,7 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
         trailing: Wrap(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(right: 2),
+              margin: EdgeInsets.only(right: 2),
               height: textHeight,
               child: Image(image: NetworkImageWithCookie(payload['status']['iconUrl'])),
             ),
@@ -174,7 +174,7 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
         trailing: Wrap(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(right: 2),
+              margin: EdgeInsets.only(right: 2),
               height: textHeight,
               child: CustomSvg(
                 $_get(payload, ['issuetype', 'iconUrl']),
@@ -199,7 +199,7 @@ class _IssueState extends State<Issue> with SingleTickerProviderStateMixin {
         trailing: Wrap(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(right: 2),
+              margin: EdgeInsets.only(right: 2),
               height: textHeight,
               child: CustomSvg(
                 $_get(payload, ['priority', 'iconUrl']),
@@ -362,7 +362,7 @@ class LargeItem extends StatelessWidget {
       );
     }
     return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 20),
+      margin: EdgeInsets.only(top: 10, bottom: 20),
       child: Row(
         mainAxisAlignment:
             this.createIcon == null ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
@@ -405,7 +405,7 @@ class CommentInput extends StatelessWidget {
     return Container(
         width: MediaQuery.of(context).size.width * .8,
         color: Theme.of(context).backgroundColor,
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Form(
           key: _formKey, //设置globalKey，用于后面获取FormState
           child: Wrap(
@@ -466,7 +466,7 @@ class _WorkLogInputState extends State<WorkLogInput> {
     return Container(
         width: MediaQuery.of(context).size.width * .9,
         color: Theme.of(context).backgroundColor,
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Form(
           key: _formKey, //设置globalKey，用于后面获取FormState
           child: Wrap(
@@ -477,7 +477,7 @@ class _WorkLogInputState extends State<WorkLogInput> {
                 style: Theme.of(context).textTheme.title,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 width: double.infinity,
                 child: RaisedButton(
                   color: Theme.of(context).backgroundColor,
@@ -496,7 +496,7 @@ class _WorkLogInputState extends State<WorkLogInput> {
                       Icon(Icons.access_time),
                       Container(
                         alignment: Alignment.center,
-                        margin: const EdgeInsets.only(left: 10),
+                        margin: EdgeInsets.only(left: 10),
                         child: Text(formatDateTimeString(
                           context: context,
                           date: _workTime,

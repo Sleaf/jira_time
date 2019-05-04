@@ -11,8 +11,8 @@ class EndLine extends StatelessWidget {
       children: <Widget>[
         Expanded(child: Divider()),
         Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          margin: EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Text(
             this.text,
             textAlign: TextAlign.center,

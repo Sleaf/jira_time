@@ -13,4 +13,4 @@ const API_STATUS_CATEGORY = '/rest/api/2/statuscategory';
 // projects
 const API_PROJECT = '/rest/api/2/project';
 const API_SEARCH = '/rest/api/2/search';
-const API_FAVOURITE_FILTER= '/rest/api/2/filter/favourite';
+const API_FAVOURITE_FILTER = '/rest/api/2/filter/favourite';

@@ -13,11 +13,10 @@ class LocalNotification {
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.Max, priority: Priority.High);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics =
+        NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    _notification.show(0, '这是一条测试通知【标题】', '这是通知主体', platformChannelSpecifics,
-        payload: '可携带数据');
+    _notification.show(0, '这是一条测试通知【标题】', '这是通知主体', platformChannelSpecifics, payload: '可携带数据');
   }
 
   LocalNotification({this.onSelect}) {

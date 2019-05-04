@@ -111,7 +111,7 @@ class zh_CN extends S {
   @override
   String get validator_hostname_regx => "服务器地址必须以http(s)://开头";
   @override
-  String get validator_username_required => "请填写密码";
+  String get validator_username_required => "请填写用户名";
   @override
   String get no_more_data => "没有更多数据";
   @override

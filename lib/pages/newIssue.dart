@@ -227,7 +227,7 @@ class _NewIssueState extends State<NewIssue> with SingleTickerProviderStateMixin
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       S.of(context).assign_to_me,
                       style: TextStyle(
