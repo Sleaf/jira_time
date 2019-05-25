@@ -17,13 +17,14 @@
 - [x] 多主题（夜间模式）
 
 ## 应用截图
-![Login](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Login.png)
-![Dashboard](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Dashboard.png)
-![Dashboard-slide](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Dashboard-slide.png)
-![issue](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/issue.png)
-![issue2](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/issue2.png)
-![newComment](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/newComment.png)
-![newLog](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/newLog.png)
+![Login](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Login.jpg)
+![Dashboard](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Dashboard.jpg)
+![Dashboard2](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Dashboard2.jpg)
+![Dashboard-slide](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/Dashboard-slide.jpg)
+![issue](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/issue.jpg)
+![issue2](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/issue2.jpg)
+![newComment](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/newComment.jpg)
+![newLog](https://raw.githubusercontent.com/Sleaf/jira_time/master/docs/snapshots/newLog.jpg)
 
 ## TODO
 - 由于编码时间仓促，没有做好数据处理/异常处理，暂时以动态语言的方式处理，等待v2版本重构
